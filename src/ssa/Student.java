@@ -10,12 +10,42 @@ public class Student implements Comparable<Student> {
 	public int monthsEmployed;
 
 	public void printClassRoster() {
+		printStudentsByFirstName();
+		printMeAndIdsNearMe();
+	}
+	void printStudentsByFirstName() {
 		// print roster in FirstName sequence
 		Collections.sort(classRoster);
-		this.printRosterHeader();
+		this.printRosterHeader("by first name");
 		for(Student aStudent : classRoster) {
 			this.printStudentDetail(aStudent);
 		}
+	}
+	void printMeAndIdsNearMe() {
+		HashMap<String, Student> classDb = new HashMap<String, Student>();
+		for(Student student : classRoster) {
+			classDb.put(student.id, student);
+		}
+		Set ids = classDb.keySet();
+		ArrayList<String> sortedIds = new ArrayList<String>(ids);
+		sortedIds.sort(null);
+		String targetId = "306700"; // 267252, 306700, 343769
+		String prevId = null;
+		String myId = null;
+		String nextId = null;
+		for(int idx = 0; idx < sortedIds.size(); idx++) {
+			if(sortedIds.get(idx) == targetId) {
+				myId = sortedIds.get(idx);
+				prevId = sortedIds.get(idx-1);
+				nextId = sortedIds.get(idx+1);
+				break;
+			}
+		}
+		System.out.println("************************");
+		this.printRosterHeader("by Id");
+		this.printStudentDetail(classDb.get(myId));
+		this.printStudentDetail(classDb.get(prevId));
+		this.printStudentDetail(classDb.get(nextId));
 	}
 	@Override
 	public int compareTo(Student student) {
@@ -25,11 +55,11 @@ public class Student implements Comparable<Student> {
 		System.out.printf("%-6s    %-16s   %-16s   %-9s   %8d\n",
 				student.id, student.firstName, student.lastName, student.eyeColor, student.monthsEmployed);
 	}
-	void printRosterHeader() {
-		String header = "Student class roster\n" 
+	void printRosterHeader(String title) {
+		String header = "Student class roster %s\n" 
 			+ "Empl Id   First name         Last name          Eye color   Months at SSA\n"
-			+ "=======   ================   ================   =========   =============";
-		System.out.println(header);
+			+ "=======   ================   ================   =========   =============\n";
+		System.out.printf(header, title);
 	}
 	void Init() {
 		String[][] students = {
