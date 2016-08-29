@@ -1,6 +1,6 @@
 package ssa;
 import java.util.*;
-public class Student implements Comparable {
+public class Student implements Comparable<Student> {
 	static ArrayList<Student> classRoster = null;
 	
 	public String id;
@@ -18,12 +18,11 @@ public class Student implements Comparable {
 		}
 	}
 	@Override
-	public int compareTo(Object studentAsObj) {
-		Student student = (Student) studentAsObj;
+	public int compareTo(Student student) {
 		return this.firstName.compareTo(student.firstName);
 	}
 	void printStudentDetail(Student student) {
-		System.out.printf("%-6s    %-16s   %-16s   %-9s   %6d\n",
+		System.out.printf("%-6s    %-16s   %-16s   %-9s   %8d\n",
 				student.id, student.firstName, student.lastName, student.eyeColor, student.monthsEmployed);
 	}
 	void printRosterHeader() {
